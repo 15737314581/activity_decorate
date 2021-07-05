@@ -230,7 +230,7 @@ class ActivityTestCase(object):
         @return:
         """
         # print("sendTestPeport")
-        # 加载全部用例
+        # 加载全部的用例
         results = self.loadAllCaseByApp(app)
         content = """
         <html><body>
