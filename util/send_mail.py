@@ -12,7 +12,7 @@ class SendMail(object):
     def send(self, title, content, sender, auth_code, receivers):
         message = MIMEText(content, "html", "utf-8")
         message["From"] = "{}".format(sender)
-        message["To"] = ",".format(receivers)
+        message["To"] = ",".join(receivers)
         message["Subject"] = title
         try:
             smtp_obj = smtplib.SMTP_SSL(self.mail_host, 465)  # 启用ssl发信，端口一般为465
@@ -26,7 +26,7 @@ class SendMail(object):
 
 if __name__ == '__main__':
     mail = SendMail("smtp.126.com")
-    sender = "jjf15737314581@126.com"
+    sender = "jjf15737314581jjf@126.com"
     receivers = ["1065109432@qq.com"]
     title = "接口自动化测试demo"
     content = """
@@ -34,5 +34,5 @@ if __name__ == '__main__':
     <a href="https://xdclass.net">进入小滴课堂官网</a>
     """
     # 授权码
-    auth_code = "ZSTJDVKWWRMQGYPG"
+    auth_code = "KVBMWYLGZYEKWQGZ"
     mail.send(title, content, sender, auth_code, receivers)

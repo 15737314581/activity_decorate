@@ -11,14 +11,14 @@ class ReadConfig(object):
         if filepath:
             cf_path = filepath
         else:
-            # 获取当前文件所在目录的上一级目录，即项目所在目录E:/xd_api_test
-            root_dir = os.path.dirname(os.path.abspath('.'))
-            cf_path = os.path.join(root_dir, "config.ini")
-        self.cf = configparser.ConfigParser()
-        self.cf.read(cf_path)
+            # 获取当前文件所在目录的上一级目录，即项目所在目录
+            self.read_path = os.path.join(os.getcwd(), "../config.ini")
+
+        self.config = configparser.ConfigParser()
+        self.config.read(self.read_path)
 
     def get_db(self, sections, param):
-        value = self.cf.get(sections, param)
+        value = self.config.get(sections, param)
         return value
 
 

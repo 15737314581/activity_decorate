@@ -139,7 +139,11 @@ class ActivityTestCase(object):
                             field_value = pre_response["data"][field_name]
                             headers[field_name] = field_value
                 elif pre_field["scope"] == "body":
-                    print("替换body")
+                    for r_body in body:
+                        field_name = pre_field["field"]
+                        if r_body == field_name:
+                            field_value = pre_response["data"][field_name]
+                            body[field_name] = field_value
         print(headers)
         # 发起请求
         req = RequestUtil()
@@ -150,8 +154,6 @@ class ActivityTestCase(object):
         else:
             response = req.request(url, method, headers=headers, param=body)
             return response
-
-
 
     def assertResponse(self, case, response):
         """
@@ -232,8 +234,9 @@ class ActivityTestCase(object):
         results = self.loadAllCaseByApp(app)
         content = """
         <html><body>
-            <h3>{0} 接口测试报告：</h3>
-            <h4>pass用例</h4>
+            <h1>{0} 接口测试报告：</h1>
+            <h2>总用例数:{3} pass用例数:<span style="color:green">{4}</span> fail用例数:<span style="color:red">{5}</span> 通过率:<span style="color:blue">{6:.2f}%</span></h2>
+            <h3>pass用例</h3>
             <table border="1">
             <tr>
               <th>编号</th>
@@ -245,7 +248,7 @@ class ActivityTestCase(object):
             </tr>
             {1}
             </table>
-            <h4>fail用例</h4>
+            <h3>fail用例</h3>
             <table border="1">
             <tr>
               <th>编号</th>
@@ -261,20 +264,26 @@ class ActivityTestCase(object):
         """
         template_true = ""
         template_false = ""
+        total_num = len(results)
+        pass_num = 0
+        fail_num = 0
         for case in results:
             if case["pass"] == str(True):
                 template_true += "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td></tr>".format(
                     case['id'], case['module'], case['title'], case['pass'], case['msg'], case['response'])
+                pass_num += 1
             elif case["pass"] == str(False):
                 template_false += "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td></tr>".format(
                     case['id'], case['module'], case['title'], case['pass'], case['msg'], case['response'])
+                fail_num += 1
         current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        content = content.format(current_time, template_true, template_false)
+        content = content.format(current_time, template_true, template_false, total_num, pass_num, fail_num,
+                                 (pass_num / total_num)*100)
         mail_host = self.loadconfigByAppAndKey(app, "mail_host")["dict_value"]
         mail_title = self.loadconfigByAppAndKey(app, "mail_title")["dict_value"]
         mail_sender = self.loadconfigByAppAndKey(app, "mail_sender")["dict_value"]
         mail_auth_code = self.loadconfigByAppAndKey(app, "mail_auth_code")["dict_value"]
-        mail_receivers = self.loadconfigByAppAndKey(app, "mail_receivers")["dict_value"]
+        mail_receivers = self.loadconfigByAppAndKey(app, "mail_receivers")["dict_value"].split(",")
         mail = SendMail(mail_host)
         mail.send(mail_title, content, mail_sender, mail_auth_code, mail_receivers)
 
