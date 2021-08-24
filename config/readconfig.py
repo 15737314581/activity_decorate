@@ -9,7 +9,7 @@ class ReadConfig(object):
 
     def __init__(self, filepath=None):
         if filepath:
-            cf_path = filepath
+            self.read_path = filepath
         else:
             # 获取当前文件所在目录的上一级目录，即项目所在目录
             self.read_path = os.path.join(os.getcwd(), "../config.ini")

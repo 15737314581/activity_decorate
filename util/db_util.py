@@ -7,7 +7,7 @@ filterwarnings("ignore", category=pymysql.Warning)
 
 
 class MysqlDb(object):
-    readconfig = ReadConfig()
+    readconfig = ReadConfig(filepath='/Users/jijianfeng/Desktop/pythoncode/activity_decorate/config.ini')
     host = readconfig.get_db("Mysql-Database", "host")
     user = readconfig.get_db("Mysql-Database", "user")
     password = readconfig.get_db("Mysql-Database", "password")
