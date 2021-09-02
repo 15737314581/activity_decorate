@@ -1,0 +1,6 @@
+Mysql-Database:
+  host: 127.0.0.1
+  user: root
+  password: root
+  db: activity_decorate
+  charset: charset

@@ -30,7 +30,7 @@ if __name__ == '__main__':
     receivers = ["1065109432@qq.com"]
     title = "接口自动化测试demo"
     content = """
-    小滴课堂 邮件测试
+    小滴课堂 邮件测试gt
     <a href="https://xdclass.net">进入小滴课堂官网</a>
     """
     # 授权码

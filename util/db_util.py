@@ -1,17 +1,20 @@
+
 import pymysql
 from warnings import filterwarnings
 from config.readconfig import ReadConfig
-
+from config.readconfig_yaml import ReadConfigYaml
 # 忽略mysql告警
 filterwarnings("ignore", category=pymysql.Warning)
 
 
 class MysqlDb(object):
-    readconfig = ReadConfig(filepath='/Users/jijianfeng/Desktop/pythoncode/activity_decorate/config.ini')
+    # readconfig = ReadConfig()
+    readconfig = ReadConfigYaml()
     host = readconfig.get_db("Mysql-Database", "host")
     user = readconfig.get_db("Mysql-Database", "user")
     password = readconfig.get_db("Mysql-Database", "password")
     db = readconfig.get_db("Mysql-Database", "db")
+
 
     def __init__(self):
         # 建立数据库连接
