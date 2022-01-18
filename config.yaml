@@ -3,4 +3,4 @@ Mysql-Database:
   user: root
   password: root
   db: activity_decorate
-  charset: charset
+  charset: utf8

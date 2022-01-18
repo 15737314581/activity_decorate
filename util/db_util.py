@@ -1,8 +1,8 @@
-
 import pymysql
 from warnings import filterwarnings
 from config.readconfig import ReadConfig
 from config.readconfig_yaml import ReadConfigYaml
+
 # 忽略mysql告警
 filterwarnings("ignore", category=pymysql.Warning)
 
@@ -14,12 +14,12 @@ class MysqlDb(object):
     user = readconfig.get_db("Mysql-Database", "user")
     password = readconfig.get_db("Mysql-Database", "password")
     db = readconfig.get_db("Mysql-Database", "db")
-
+    charset = readconfig.get_db("Mysql-Database", "charset")
 
     def __init__(self):
         # 建立数据库连接
         self.conn = pymysql.connect(host=MysqlDb.host, user=MysqlDb.user, password=MysqlDb.password,
-                                    database=MysqlDb.db)
+                                    database=MysqlDb.db, charset=MysqlDb.charset)
         #  使用cursor方法操作游标，得到一个可以操作sql语句，并且操作结果作为字典返回的游标
         self.cursor = self.conn.cursor(cursor=pymysql.cursors.DictCursor)
 
@@ -79,4 +79,3 @@ if __name__ == '__main__':
     sql = "delete from `case` where app = '测试123' "
     result = mydb.execute(sql)
     print(result)
-
