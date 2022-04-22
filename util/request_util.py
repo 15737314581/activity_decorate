@@ -10,7 +10,7 @@ class RequestUtil(object):
     def __init__(self):
         pass
 
-    def request(self, url, method, headers=None, param=None, content_type=None):
+    def request(self, url, method, headers=None, param=None, content_type=None, **kwargs):
         """
         通用请求工具类
         @param url:
@@ -22,11 +22,11 @@ class RequestUtil(object):
         """
         try:
             if method == "get":
-                response = requests.get(url=url, headers=headers, params=param).json()
+                response = requests.get(url=url, headers=headers, params=param, **kwargs).json()
                 return response
             elif method == "post":
                 if content_type == "application/json":
-                    response = requests.post(url=url, headers=headers, json=param).json()
+                    response = requests.post(url=url, headers=headers, json=param, **kwargs).json()
                     return response
                 else:
                     response = requests.post(url=url, headers=headers, data=param).json()
